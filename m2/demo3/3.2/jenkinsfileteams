@@ -1,0 +1,32 @@
+pipeline {
+   agent any
+    environment {
+      RELEASE='20.04'
+    }
+   stages {
+      stage('Build') {
+            environment {
+               LOG_LEVEL='INFO'
+            }
+            steps {
+               echo "Building release ${RELEASE} with log level ${LOG_LEVEL}..."
+             
+               }
+            }
+        }
+        stage('Test') {
+            steps {
+               echo "Testing release ${RELEASE}"
+               writeFile file: 'test-results.txt', text: 'passed'               
+            }
+        }
+   }
+   post {
+      success {
+         archiveArtifacts 'test-results.txt'
+           office365ConnectorSend webhookUrl: 'https://rahyab038.webhook.office.com/webhookb2/361254bc-6e3e-4545-a5af-072d7e0b1935@34277e7d-9fe7-48c4-9d66-d794107ca4e1/IncomingWebhook/c035e08c11084c0197fdeae1ad9060a7/ca0a341b-49f9-489f-8cc2-12d80a4db7a4',
+            message: 'Application has been [deployed](https://uat.green.biz)',
+            status: 'Success'            
+      }
+   }
+}

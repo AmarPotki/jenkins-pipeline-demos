@@ -15,7 +15,7 @@ pipeline {
         }   
         stage('Smoke Test') {
             steps {
-              sh 'docker run sixeyed/pi:psod-pipelines'
+              sh 'docker run AmarPotki/pi:psod-pipelines'
             }
         }
     }
